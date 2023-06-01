@@ -1,9 +1,12 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Board;
+import com.example.demo.model.SearchParam;
 import com.example.demo.repository.Prac02Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class Prac02Service {
@@ -33,5 +36,10 @@ public class Prac02Service {
     public boolean deleteBoard(int bbsseq) {
         // 게시판 삭제 로직 처리
         return repository.deleteBoard(bbsseq);
+    }
+
+    public List<Board> boardList(SearchParam search) {
+        // 게시판 검색 로직 처리
+        return repository.boardList(search);
     }
 }
