@@ -15,9 +15,9 @@ public class Prac02Service {
         this.repository = repository;
     }
 
-    public Board createBoard(Board board){
+    public boolean createBoard(Board board){
         // 게시판 등록 로직 처리
-        return repository.save(board);
+        return repository.createBoard(board);
     }
 
     public Board getBoard(int bbsseq) {
@@ -25,4 +25,13 @@ public class Prac02Service {
         return repository.findById(bbsseq);
     }
 
+    public boolean reWriteBoard(Board board, int bbsseq) {
+        // 게시판 수정 로직 처리
+        return repository.reWriteBoard(board, bbsseq);
+    }
+
+    public boolean deleteBoard(int bbsseq) {
+        // 게시판 삭제 로직 처리
+        return repository.deleteBoard(bbsseq);
+    }
 }

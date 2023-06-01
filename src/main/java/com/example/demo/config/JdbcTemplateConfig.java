@@ -15,7 +15,7 @@ public class JdbcTemplateConfig {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setUsername("root");
         dataSource.setPassword("1234");
-        dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
+//        dataSource.setDriverClassName("org.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/prac02");
         return dataSource;
     }

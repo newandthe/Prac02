@@ -16,22 +16,38 @@ public class Prac02Repository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Board save(Board board) {
+    public boolean createBoard(Board board) {
         // 게시판 등록을 위한 SQL 작성
         String sql = "INSERT INTO boards (title, content) VALUES (?, ?)";
-        jdbcTemplate.update(sql, board.getTitle(), board.getContent());
+        int n = jdbcTemplate.update(sql, board.getTitle(), board.getContent());
 
-        // 등록된 게시물의 ID 조회
-        String idQuery = "SELECT LAST_INSERT_ID()";
-        int generatedId = jdbcTemplate.queryForObject(idQuery, Integer.class);
+        System.out.println("n " + n);
 
-        board.setBbsseq(generatedId);
-        return board;
+        return n>0?true:false;
     }
 
     public Board findById(int bbsseq) {
         // 게시판 상세보기를 위한 SQL 작성
         String sql = "SELECT * FROM boards WHERE bbsseq = ?";
+
+        // queryForObject 는 결과가 없으면 EmptyResultDataAccessException 예외 발생
+        // try catch로 변경해야..
+        // https://sasca37.tistory.com/219
         return jdbcTemplate.queryForObject(sql, new Object[]{bbsseq}, new BoardRowMapper());
     }
+
+    public boolean reWriteBoard(Board board, int bbsseq) {
+        String sql = "UPDATE boards SET title = ?, content = ? WHERE bbsseq = ?";
+        int n = jdbcTemplate.update(sql, board.getTitle(), board.getContent(), bbsseq);
+        return n>0?true:false;
+    }
+
+
+    public boolean deleteBoard(int bbsseq) {
+        String sql = "DELETE FROM boards WHERE bbsseq = ?";
+        int n = jdbcTemplate.update(sql, bbsseq);
+        return n>0?true:false;
+    }
+
+    // 목록 조회 (검색 정렬은 동적쿼리가 필요하다.)
 }

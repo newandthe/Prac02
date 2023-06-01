@@ -25,7 +25,43 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+
+
+
+			<exclusions>
+				<!--
+                 스프링 부트에서 Log4j2를 사용하기위해선 내부로깅에서 쓰이는 의존성을 제외해주어야 합니다.
+                 기본적으로 Spring은 Slf4j라는 로깅 프레임워크를 사용합니다.
+                 구현체를 손쉽게 교체할 수 있도록 도와주는 프레임 워크입니다.
+                 Slf4j는 인터페이스고 내부 구현체로 logback을 가지고 있는데,
+                 Log4j2를 사용하기 위해 exclude 해야 합니다.
+                 -->
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+
 		</dependency>
+
+		<!-- Log4j2 로깅 구현체를 사용을 위해 Spring Boot Starter에서 지원해주는  log4j2 의존성을 추가 해줍니다. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+
+<!--		&lt;!&ndash; Logback &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>org.slf4j</groupId>-->
+<!--			<artifactId>jcl-over-slf4j</artifactId>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>ch.qos.logback</groupId>-->
+<!--			<artifactId>logback-classic</artifactId>-->
+<!--		</dependency>-->
+
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+
 
 		<dependency>
 			<groupId>com.mysql</groupId>
@@ -47,6 +83,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<!-- HikariCP: 데이터베이스 커넥션 풀링을 위한 HikariCP 의존성 -->
 		<dependency>
 			<groupId>com.zaxxer</groupId>
