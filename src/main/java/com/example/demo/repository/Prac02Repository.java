@@ -2,9 +2,12 @@ package com.example.demo.repository;
 
 import com.example.demo.config.BoardRowMapper;
 import com.example.demo.model.Board;
+import com.example.demo.model.SearchParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class Prac02Repository {
@@ -47,6 +50,11 @@ public class Prac02Repository {
         String sql = "DELETE FROM boards WHERE bbsseq = ?";
         int n = jdbcTemplate.update(sql, bbsseq);
         return n>0?true:false;
+    }
+
+    public List<Board> boardList(SearchParam search) {
+        String sql = "SELECT FROM WHERE";
+        return null;    // 추후에 동적쿼리로 만들어서 수정하기.
     }
 
     // 목록 조회 (검색 정렬은 동적쿼리가 필요하다.)
