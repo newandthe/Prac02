@@ -1,0 +1,119 @@
+2023/06/01 12:09:17,618 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Starting DemoApplication using Java 1.8.0_202 on JSK with PID 14748 (C:\Users\kstur\IdeaProjects\Prac02\target\classes started by kstur in C:\Users\kstur\IdeaProjects\Prac02)
+ -2023/06/01 12:09:17,621 [INFO ]  [org.springframework.boot.SpringApplication] [main]- No active profile set, falling back to 1 default profile: "default"
+ -2023/06/01 12:09:18,036 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 12:09:18,036 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting service [Tomcat]
+ -2023/06/01 12:09:18,044 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting Servlet engine: [Apache Tomcat/9.0.75]
+ -2023/06/01 12:09:18,106 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing Spring embedded WebApplicationContext
+ -2023/06/01 12:09:18,488 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 12:09:18,499 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Started DemoApplication in 1.067 seconds (JVM running for 1.419)
+ -2023/06/01 12:19:54,298 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [http-nio-3000-exec-1]- Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+ - java.lang.IllegalArgumentException: Invalid character found in method name [0x160x030x010x000xe50x010x000x000xe10x030x030xfbr0x800xe8by0xcd.]0xaa0x8d00x010xf20xd90xe70x8f0x940xb10xc7r0xac0x1e0xe6eO0xd10xaf0xec0xfa0x020xee ]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:407) ~[tomcat-embed-core-9.0.75.jar:9.0.75]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:263) ~[tomcat-embed-core-9.0.75.jar:9.0.75]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-9.0.75.jar:9.0.75]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926) ~[tomcat-embed-core-9.0.75.jar:9.0.75]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791) ~[tomcat-embed-core-9.0.75.jar:9.0.75]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-9.0.75.jar:9.0.75]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-9.0.75.jar:9.0.75]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-9.0.75.jar:9.0.75]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.75.jar:9.0.75]
+	at java.lang.Thread.run(Thread.java:748) ~[?:1.8.0_202]
+2023/06/01 12:20:53,213 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Starting DemoApplication using Java 1.8.0_202 on JSK with PID 10836 (C:\Users\kstur\IdeaProjects\Prac02\target\classes started by kstur in C:\Users\kstur\IdeaProjects\Prac02)
+ -2023/06/01 12:20:53,217 [INFO ]  [org.springframework.boot.SpringApplication] [main]- No active profile set, falling back to 1 default profile: "default"
+ -2023/06/01 12:20:53,642 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 12:20:53,642 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting service [Tomcat]
+ -2023/06/01 12:20:53,642 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting Servlet engine: [Apache Tomcat/9.0.75]
+ -2023/06/01 12:20:53,703 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing Spring embedded WebApplicationContext
+ -2023/06/01 12:20:54,089 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 12:20:54,100 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Started DemoApplication in 1.075 seconds (JVM running for 1.429)
+ -2023/06/01 12:20:57,479 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [http-nio-3000-exec-2]- Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+ - java.lang.IllegalArgumentException: Invalid character found in method name [0x160x030x010x000xe50x010x000x000xe10x030x030xc50xc90x1b0xde80x190x8c0xf00x100xf2J0x9b0xaa3Th0xcb0xe10xc30x9d0xdb0xc80xe3:0x8e0xd00xff70xfal0xd3O ]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:407) ~[tomcat-embed-core-9.0.75.jar:9.0.75]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:263) ~[tomcat-embed-core-9.0.75.jar:9.0.75]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-9.0.75.jar:9.0.75]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926) ~[tomcat-embed-core-9.0.75.jar:9.0.75]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791) ~[tomcat-embed-core-9.0.75.jar:9.0.75]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-9.0.75.jar:9.0.75]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-9.0.75.jar:9.0.75]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-9.0.75.jar:9.0.75]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.75.jar:9.0.75]
+	at java.lang.Thread.run(Thread.java:748) ~[?:1.8.0_202]
+2023/06/01 12:27:53,753 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [http-nio-3000-exec-4]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+ -2023/06/01 13:50:59,424 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Starting DemoApplication using Java 1.8.0_202 on JSK with PID 12128 (C:\Users\kstur\IdeaProjects\Prac02\target\classes started by kstur in C:\Users\kstur\IdeaProjects\Prac02)
+ -2023/06/01 13:50:59,424 [INFO ]  [org.springframework.boot.SpringApplication] [main]- No active profile set, falling back to 1 default profile: "default"
+ -2023/06/01 13:50:59,871 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 13:50:59,871 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting service [Tomcat]
+ -2023/06/01 13:50:59,872 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting Servlet engine: [Apache Tomcat/9.0.75]
+ -2023/06/01 13:50:59,938 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing Spring embedded WebApplicationContext
+ -2023/06/01 13:51:00,354 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 13:51:00,366 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Started DemoApplication in 1.129 seconds (JVM running for 1.488)
+ -2023/06/01 13:51:04,412 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [http-nio-3000-exec-2]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+ -2023/06/01 13:57:34,800 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Starting DemoApplication using Java 1.8.0_202 on JSK with PID 19084 (C:\Users\kstur\IdeaProjects\Prac02\target\classes started by kstur in C:\Users\kstur\IdeaProjects\Prac02)
+ -2023/06/01 13:57:34,803 [INFO ]  [org.springframework.boot.SpringApplication] [main]- No active profile set, falling back to 1 default profile: "default"
+ -2023/06/01 13:57:35,231 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 13:57:35,232 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting service [Tomcat]
+ -2023/06/01 13:57:35,232 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting Servlet engine: [Apache Tomcat/9.0.75]
+ -2023/06/01 13:57:35,291 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing Spring embedded WebApplicationContext
+ -2023/06/01 13:57:35,677 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 13:57:35,689 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Started DemoApplication in 1.076 seconds (JVM running for 1.434)
+ -2023/06/01 13:57:38,172 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [http-nio-3000-exec-1]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+ -2023/06/01 14:01:41,039 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Starting DemoApplication using Java 1.8.0_202 on JSK with PID 17600 (C:\Users\kstur\IdeaProjects\Prac02\target\classes started by kstur in C:\Users\kstur\IdeaProjects\Prac02)
+ -2023/06/01 14:01:41,043 [INFO ]  [org.springframework.boot.SpringApplication] [main]- No active profile set, falling back to 1 default profile: "default"
+ -2023/06/01 14:01:41,480 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 14:01:41,480 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting service [Tomcat]
+ -2023/06/01 14:01:41,480 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting Servlet engine: [Apache Tomcat/9.0.75]
+ -2023/06/01 14:01:41,539 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing Spring embedded WebApplicationContext
+ -2023/06/01 14:01:41,935 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 14:01:41,947 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Started DemoApplication in 1.1 seconds (JVM running for 1.469)
+ -2023/06/01 14:01:47,607 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [http-nio-3000-exec-1]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+ -2023/06/01 14:02:04,995 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Starting DemoApplication using Java 1.8.0_202 on JSK with PID 4724 (C:\Users\kstur\IdeaProjects\Prac02\target\classes started by kstur in C:\Users\kstur\IdeaProjects\Prac02)
+ -2023/06/01 14:02:04,999 [INFO ]  [org.springframework.boot.SpringApplication] [main]- No active profile set, falling back to 1 default profile: "default"
+ -2023/06/01 14:02:05,415 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 14:02:05,415 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting service [Tomcat]
+ -2023/06/01 14:02:05,415 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting Servlet engine: [Apache Tomcat/9.0.75]
+ -2023/06/01 14:02:05,475 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing Spring embedded WebApplicationContext
+ -2023/06/01 14:02:05,850 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 14:02:05,861 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Started DemoApplication in 1.052 seconds (JVM running for 1.415)
+ -2023/06/01 14:02:12,379 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [http-nio-3000-exec-1]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+ -2023/06/01 15:40:25,103 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Starting DemoApplication using Java 1.8.0_202 on JSK with PID 13548 (C:\Users\kstur\IdeaProjects\Prac02\target\classes started by kstur in C:\Users\kstur\IdeaProjects\Prac02)
+ -2023/06/01 15:40:25,106 [INFO ]  [org.springframework.boot.SpringApplication] [main]- No active profile set, falling back to 1 default profile: "default"
+ -2023/06/01 15:40:25,538 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 15:40:25,538 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting service [Tomcat]
+ -2023/06/01 15:40:25,538 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting Servlet engine: [Apache Tomcat/9.0.75]
+ -2023/06/01 15:40:25,595 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing Spring embedded WebApplicationContext
+ -2023/06/01 15:40:26,006 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 15:40:26,017 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Started DemoApplication in 1.101 seconds (JVM running for 1.453)
+ -2023/06/01 15:40:44,029 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [http-nio-3000-exec-1]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+ -2023/06/01 15:43:25,441 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Starting DemoApplication using Java 1.8.0_202 on JSK with PID 3260 (C:\Users\kstur\IdeaProjects\Prac02\target\classes started by kstur in C:\Users\kstur\IdeaProjects\Prac02)
+ -2023/06/01 15:43:25,445 [INFO ]  [org.springframework.boot.SpringApplication] [main]- No active profile set, falling back to 1 default profile: "default"
+ -2023/06/01 15:43:25,869 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 15:43:25,870 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting service [Tomcat]
+ -2023/06/01 15:43:25,870 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting Servlet engine: [Apache Tomcat/9.0.75]
+ -2023/06/01 15:43:25,928 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing Spring embedded WebApplicationContext
+ -2023/06/01 15:43:26,301 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 15:43:26,312 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Started DemoApplication in 1.057 seconds (JVM running for 1.407)
+ -2023/06/01 15:43:29,963 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [http-nio-3000-exec-1]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+ -2023/06/01 15:43:30,000 [WARN ]  [com.example.demo.controller.Prac02Controller] [http-nio-3000-exec-1]- [Controller.warn createBoard]
+ -2023/06/01 15:43:30,000 [INFO ]  [com.example.demo.controller.Prac02Controller] [http-nio-3000-exec-1]- [Controller.info createBoard]
+ -2023/06/01 15:43:30,000 [ERROR]  [com.example.demo.controller.Prac02Controller] [http-nio-3000-exec-1]- [Controller.error createBoard]
+ -2023/06/01 15:46:33,701 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Starting DemoApplication using Java 1.8.0_202 on JSK with PID 19364 (C:\Users\kstur\IdeaProjects\Prac02\target\classes started by kstur in C:\Users\kstur\IdeaProjects\Prac02)
+ -2023/06/01 15:46:33,705 [INFO ]  [org.springframework.boot.SpringApplication] [main]- No active profile set, falling back to 1 default profile: "default"
+ -2023/06/01 15:46:34,110 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 15:46:34,110 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting service [Tomcat]
+ -2023/06/01 15:46:34,110 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting Servlet engine: [Apache Tomcat/9.0.75]
+ -2023/06/01 15:46:34,170 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing Spring embedded WebApplicationContext
+ -2023/06/01 15:46:34,550 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 15:46:34,561 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Started DemoApplication in 1.046 seconds (JVM running for 1.402)
+ -2023/06/01 15:46:38,611 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [http-nio-3000-exec-1]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+ -2023/06/01 16:49:45,679 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Starting DemoApplication using Java 1.8.0_202 on JSK with PID 12532 (C:\Users\kstur\IdeaProjects\Prac02\target\classes started by kstur in C:\Users\kstur\IdeaProjects\Prac02)
+ -2023/06/01 16:49:45,684 [INFO ]  [org.springframework.boot.SpringApplication] [main]- No active profile set, falling back to 1 default profile: "default"
+ -2023/06/01 16:49:46,104 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 16:49:46,104 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting service [Tomcat]
+ -2023/06/01 16:49:46,105 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting Servlet engine: [Apache Tomcat/9.0.75]
+ -2023/06/01 16:49:46,162 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Initializing Spring embedded WebApplicationContext
+ -2023/06/01 16:49:46,544 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [main]- Starting ProtocolHandler ["http-nio-3000"]
+ -2023/06/01 16:49:46,555 [INFO ]  [org.springframework.boot.StartupInfoLogger] [main]- Started DemoApplication in 1.063 seconds (JVM running for 1.43)
+ -2023/06/01 16:49:49,702 [INFO ]  [org.apache.juli.logging.DirectJDKLog] [http-nio-3000-exec-1]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+ -
