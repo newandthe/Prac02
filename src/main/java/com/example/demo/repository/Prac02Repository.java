@@ -57,5 +57,14 @@ public class Prac02Repository {
         return null;    // 추후에 동적쿼리로 만들어서 수정하기.
     }
 
+    public int getTotalCount(String search) {
+        String sql = "SELECT count(*) FROM boards WHERE title LIKE CONCAT('%', ?, '%') OR content LIKE CONCAT('%', ?, '%')";
+
+
+        // null인경우 EmptyResultDataAccessException try catch 문으로 예외처리
+        return jdbcTemplate.queryForObject(sql, Integer.class, search, search);
+
+    }
+
     // 목록 조회 (검색 정렬은 동적쿼리가 필요하다.)
 }
