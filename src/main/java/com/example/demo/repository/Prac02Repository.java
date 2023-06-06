@@ -4,6 +4,7 @@ import com.example.demo.config.BoardRowMapper;
 import com.example.demo.model.Board;
 import com.example.demo.model.SearchParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -20,13 +21,19 @@ public class Prac02Repository {
     }
 
     public boolean createBoard(Board board) {
-        // 게시판 등록을 위한 SQL 작성
-        String sql = "INSERT INTO boards (title, content) VALUES (?, ?)";
-        int n = jdbcTemplate.update(sql, board.getTitle(), board.getContent());
+        try {
+            // 게시판 등록을 위한 SQL 작성
+            String sql = "INSERT INTO boards (title, content) VALUES (?, ?)";
+            int n = jdbcTemplate.update(sql, board.getTitle(), board.getContent());
 
-        System.out.println("n " + n);
+            System.out.println("n " + n);
 
-        return n>0?true:false;
+            return n > 0;
+        } catch (DataAccessException ex) {
+            // 데이터 액세스 예외 처리
+            // 예외 처리 로직을 추가해서 응답을 반환하거나 로깅 수행
+            throw new RuntimeException("게시판 등록에 실패했습니다.", ex);
+        }
     }
 
     public Board findById(int bbsseq) {
@@ -40,16 +47,24 @@ public class Prac02Repository {
     }
 
     public boolean reWriteBoard(Board board, int bbsseq) {
-        String sql = "UPDATE boards SET title = ?, content = ? WHERE bbsseq = ?";
-        int n = jdbcTemplate.update(sql, board.getTitle(), board.getContent(), bbsseq);
-        return n>0?true:false;
+        try {
+            String sql = "UPDATE boards SET title = ?, content = ? WHERE bbsseq = ?";
+            int n = jdbcTemplate.update(sql, board.getTitle(), board.getContent(), bbsseq);
+            return n > 0;
+        } catch (DataAccessException ex) {
+            throw new RuntimeException("게시판 수정에 실패했습니다.", ex);
+        }
     }
 
 
     public boolean deleteBoard(int bbsseq) {
-        String sql = "DELETE FROM boards WHERE bbsseq = ?";
-        int n = jdbcTemplate.update(sql, bbsseq);
-        return n>0?true:false;
+        try {
+            String sql = "DELETE FROM boards WHERE bbsseq = ?";
+            int n = jdbcTemplate.update(sql, bbsseq);
+            return n > 0;
+        } catch (DataAccessException ex) {
+            throw new RuntimeException("게시판 삭제에 실패했습니다.", ex);
+        }
     }
 
     public List<Board> boardList(SearchParam search) {

@@ -5,8 +5,10 @@ import com.example.demo.model.SearchParam;
 import com.example.demo.service.Prac02Service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,18 +27,22 @@ public class Prac02Controller {
 
     /* C = PostMapping , R = GetMapping, U = PutMapping, D = DeleteMapping */
 
-    @PostMapping("")        // Create
-    public String createBoard(@RequestBody Board board) {
+    @PostMapping("/")        // Create
+    public String createBoard(@Valid @RequestBody Board board) {
         log.debug("createBoard Board : {}.", board);
+        if (board.getTitle().length() > 100) {
+            throw new DataIntegrityViolationException("제목(title)의 길이가 너무 깁니다.");
+        } else if (board.getContent().length() > 2000) {
+            throw new DataIntegrityViolationException("내용(content)의 길이가 너무 깁니다.");
+        }
 
         // 게시판 등록
         boolean isSuccess = service.createBoard(board);
 
-        // ExceptionHandling으로 추후에 바꾸자 ..
         if(isSuccess){
-            return "OK";
+            return "게시물 등록 성공";
         }
-        return "check";
+        return "게시물 등록 실패";
     }
 
     @GetMapping("/{bbsseq}")     // Read
@@ -47,10 +53,16 @@ public class Prac02Controller {
     }
 
 
-    // PathVariable의 경우 service에 값이 존재하는지 파악하고 없으면 trhow
+
     @PutMapping("/{bbsseq}")        // Update
     public String reWriteBoard(@RequestBody Board board, @PathVariable int bbsseq){
         log.debug("reWriteBoard Board : {}.", board);
+        if (board.getTitle().length() > 100) {
+            throw new DataIntegrityViolationException("제목(title)의 길이가 너무 깁니다.");
+        } else if (board.getContent().length() > 2000) {
+            throw new DataIntegrityViolationException("내용(content)의 길이가 너무 깁니다.");
+        }
+
         // 게시판 수정
         boolean isSuccess = service.reWriteBoard(board, bbsseq);
 
@@ -60,6 +72,8 @@ public class Prac02Controller {
         return "null";
     }
 
+
+    // 존재하는지 먼저 파악한후 throw
     @DeleteMapping("/{bbsseq}")     // Delete
     public String deleteBoard(@PathVariable int bbsseq){
         log.debug("deleteBoard : {}.", bbsseq);
@@ -75,6 +89,7 @@ public class Prac02Controller {
     public Map boardList(@RequestParam(value = "search", required = false, defaultValue = "") String search,
                             @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
                             @RequestParam(value = "exposedCount", required = false, defaultValue = "5") int exposedCount){
+        log.debug("boardParam : {} {} {}.", search, pageNum, exposedCount);
 
         // 게시판 목록 조회    // default : search = "", pageNum = 1, exposedCount = 5개 씩..
         SearchParam searchParam = new SearchParam();
