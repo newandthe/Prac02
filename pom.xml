@@ -96,6 +96,13 @@
 			<optional>true</optional>
 		</dependency>
 
+		<!-- @Notnull 사용하기 위한 API -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
+
 
 	</dependencies>
 
