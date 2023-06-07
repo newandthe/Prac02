@@ -3,14 +3,17 @@ package com.example.demo.repository;
 import com.example.demo.config.BoardRowMapper;
 import com.example.demo.model.Board;
 import com.example.demo.model.SearchParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
+@Slf4j
 public class Prac02Repository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -40,10 +43,11 @@ public class Prac02Repository {
         // 게시판 상세보기를 위한 SQL 작성
         String sql = "SELECT * FROM boards WHERE bbsseq = ?";
 
-        // queryForObject 는 결과가 없으면 EmptyResultDataAccessException 예외 발생
-        // try catch로 변경해야..
-        // https://sasca37.tistory.com/219
         return jdbcTemplate.queryForObject(sql, new Object[]{bbsseq}, new BoardRowMapper());
+        // queryForObject 는 결과가 없으면 EmptyResultDataAccessException 예외 발생
+        // try catch로 변경
+        // https://sasca37.tistory.com/219
+
     }
 
     public boolean reWriteBoard(Board board, int bbsseq) {
@@ -59,6 +63,7 @@ public class Prac02Repository {
 
     public boolean deleteBoard(int bbsseq) {
         try {
+            // 보통은 update로 del 컬럼을 1로 수정해주는 방식을 해왔지만 DELETE 했습니다.
             String sql = "DELETE FROM boards WHERE bbsseq = ?";
             int n = jdbcTemplate.update(sql, bbsseq);
             return n > 0;
@@ -68,9 +73,19 @@ public class Prac02Repository {
     }
 
     public List<Board> boardList(SearchParam search) {
-        String sql = "SELECT FROM WHERE";
-        return null;    // 추후에 동적쿼리로 만들어서 수정하기.
+        // 노출되는
+        int offset = search.getExposedCount() * (search.getPageNum() - 1);
+
+
+        String sql = "SELECT * FROM boards WHERE del = 0 AND title LIKE CONCAT('%', ?, '%') OR content LIKE CONCAT('%', ?, '%') LIMIT ? OFFSET ?";
+//        return jdbcTemplate.query(sql, search, search, search.getExposedCount(), offset);    // 추후에 동적쿼리로 만들 필요 X
+
+        List<Board> result = jdbcTemplate.query(sql, new BoardRowMapper(), search.getSearch(), search.getSearch(), search.getExposedCount(), search.getExposedCount()* (search.getPageNum()-1) );
+
+        return result.isEmpty()? null:result;   // 조회되지 않는 경우 null return
     }
+
+    // public class ~~
 
     public int getTotalCount(String search) {
         String sql = "SELECT count(*) FROM boards WHERE title LIKE CONCAT('%', ?, '%') OR content LIKE CONCAT('%', ?, '%')";
@@ -79,6 +94,12 @@ public class Prac02Repository {
         // null인경우 EmptyResultDataAccessException try catch 문으로 예외처리
         return jdbcTemplate.queryForObject(sql, Integer.class, search, search);
 
+    }
+
+    public int isExists(int bbsseq){
+        String sql = "SELECT count(*) FROM boards WHERE bbsseq = ?";
+
+        return jdbcTemplate.queryForObject(sql, Integer.class, bbsseq);
     }
 
     // 목록 조회 (검색 정렬은 동적쿼리가 필요하다.)
