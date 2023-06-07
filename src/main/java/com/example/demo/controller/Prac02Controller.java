@@ -30,11 +30,7 @@ public class Prac02Controller {
     @PostMapping("/")        // Create
     public String createBoard(@Valid @RequestBody Board board) {
         log.debug("createBoard Board : {}.", board);
-        if (board.getTitle().length() > 100) {
-            throw new DataIntegrityViolationException("제목(title)의 길이가 너무 깁니다.");
-        } else if (board.getContent().length() > 2000) {
-            throw new DataIntegrityViolationException("내용(content)의 길이가 너무 깁니다.");
-        }
+
 
         // 게시판 등록
         boolean isSuccess = service.createBoard(board);
@@ -55,13 +51,8 @@ public class Prac02Controller {
 
 
     @PutMapping("/{bbsseq}")        // Update
-    public String reWriteBoard(@RequestBody Board board, @PathVariable int bbsseq){
+    public String reWriteBoard(@Valid @RequestBody Board board, @PathVariable int bbsseq){
         log.debug("reWriteBoard Board : {}.", board);
-        if (board.getTitle().length() > 100) {
-            throw new DataIntegrityViolationException("제목(title)의 길이가 너무 깁니다.");
-        } else if (board.getContent().length() > 2000) {
-            throw new DataIntegrityViolationException("내용(content)의 길이가 너무 깁니다.");
-        }
 
         // 게시판 수정
         boolean isSuccess = service.reWriteBoard(board, bbsseq);
@@ -69,7 +60,7 @@ public class Prac02Controller {
         if(isSuccess){
             return "OK";
         }
-        return "null";
+        return "Fail";
     }
 
 
@@ -82,14 +73,14 @@ public class Prac02Controller {
         if(isSuccess){
             return "OK";
         }
-        return "null";
+        return "Fail";
     }
 
     @GetMapping("/bbslist")         // Read         // defaultValue를 설정하기위해 RequestBody 사용 보류 // Null 가능
     public Map boardList(@RequestParam(value = "search", required = false, defaultValue = "") String search,
                             @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
                             @RequestParam(value = "exposedCount", required = false, defaultValue = "5") int exposedCount){
-        log.debug("boardParam : {} {} {}.", search, pageNum, exposedCount);
+//        log.debug("boardParam : {} {} {}.", search, pageNum, exposedCount);
 
         // 게시판 목록 조회    // default : search = "", pageNum = 1, exposedCount = 5개 씩..
         SearchParam searchParam = new SearchParam();
@@ -110,12 +101,11 @@ public class Prac02Controller {
 
 
         // Map으로 search 들에 대해서 return (totalCount, pageNum, exposedCount, bbsList)
-        System.out.println("search : " + search);
-        System.out.println("pageNum : " + pageNum);
-        System.out.println("exposedCount : " + exposedCount);
+//        System.out.println("search : " + search);
+//        System.out.println("pageNum : " + pageNum);
+//        System.out.println("exposedCount : " + exposedCount);
 
         return service.boardList(searchParam);
-        // return boardlist;
     }
 
 

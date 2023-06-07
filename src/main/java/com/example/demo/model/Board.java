@@ -6,6 +6,7 @@ import lombok.*;
 
 
 /*
+    DATA Annotation 내에는 아래가 포함
     Getter Setter
     AllArgsConstructor
     NoArgsConstructor
@@ -15,10 +16,10 @@ import lombok.*;
 public class Board {
     private int bbsseq;
 
-    @NotNull @NotBlank(message = "제목은 공백일 수 없습니다")
+    @NotBlank(message = "제목은 공백일 수 없습니다")
     private String title;
 
-    @NotNull @NotBlank(message = "내용은 공백일 수 없습니다")
+    @NotBlank(message = "내용은 공백일 수 없습니다")
     private String content;
 
     private int del;
