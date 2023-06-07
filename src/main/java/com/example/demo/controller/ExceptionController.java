@@ -27,7 +27,11 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class ExceptionController {
 
-
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResult> handleException(Exception ex) {
+        ErrorResult errorResult = new ErrorResult(HttpStatus.INTERNAL_SERVER_ERROR, LocalDateTime.now(),"INTERNAL_SERVER_ERROR", "서버 내부 오류 발생");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResult);
+    }
 
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<ErrorResult> handleNullPointerException(NullPointerException ex) {
