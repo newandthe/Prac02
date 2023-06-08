@@ -43,7 +43,7 @@ public class Prac02Service {
         int n = repository.isExists(bbsseq);
         if(n == 0){
             log.debug("reWriteBoardService : {}", bbsseq);
-            throw new EmptyResultDataAccessException(bbsseq);   // expected Size
+            throw new EmptyResultDataAccessException(1);   // expected Size
         }
 
         // 게시판 수정 로직 처리
@@ -59,7 +59,7 @@ public class Prac02Service {
         int n = repository.isExists(bbsseq);
         if(n == 0){
             log.debug("reWriteBoardService : {}", bbsseq);
-            throw new EmptyResultDataAccessException(bbsseq);   // expected Size
+            throw new EmptyResultDataAccessException(1);   // expected Size
         }
 
         // 게시판 삭제 로직 처리
@@ -77,21 +77,36 @@ public class Prac02Service {
             search.setExposedCount(1);
         }
 
-        if(search.getPageNum()<1){
-            search.setPageNum(1);
-        }
-
         // pageNum은 totalCount를 통해 노출 할 수 있는 최대 값을 넘어가면 값이 나올 수 있는 페이지로 설정..
         // totalCount = search 에 대한 검색결과 개수 쿼리문
         int totalCount = repository.getTotalCount(search.getSearch());
-//        System.out.println("totalCount " + totalCount);
+        HashMap<Object, Object> result = new HashMap<>();
 
+        if(totalCount == 0){    // 검색결과가 없다면 null로 보내고 끝.
+
+            result.put("searchParam", search);
+            result.put("totalCount", totalCount);
+            result.put("bbsList", null);
+
+            return result;
+        }
+
+
+        // totalCount가 0이 아닌경우이므로 결과가 존재한다는 의미.
+        if(  (search.getPageNum() > (int)Math.ceil( (double) totalCount/search.getExposedCount())) ){
+            search.setPageNum(  (int)Math.ceil( (double) totalCount/search.getExposedCount())  ); // 마지막 페이지로 강제로 변경
+        } else if (search.getPageNum()<1){ // 사용자가 설정한 페이지가 음수라면 1페이지로 강제 변경
+            search.setPageNum(1);
+        }
+
+        System.out.println("search.pagenum" + search.getPageNum());
         List<Board> bbslist = repository.boardList(search);
 
-        HashMap<Object, Object> result = new HashMap<>();
-        result.put("searchParam", search);
-        result.put("bbsList", bbslist);
+
+
         result.put("totalCount", totalCount);
+        result.put("bbsList", bbslist);
+        result.put("searchParam", search);
 
         return result;
     }

@@ -1,13 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.demo.exception.ErrorResponse;
 import com.example.demo.exception.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
-import org.springframework.cglib.core.Local;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -15,9 +12,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -63,6 +58,8 @@ public class ExceptionController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
     }
 
+
+
     @ExceptionHandler(EmptyResultDataAccessException.class)
     public ResponseEntity<ErrorResult> EmptyResultDataAccessException(EmptyResultDataAccessException ex) {
         log.error("EmptyResultDataAccessException: {}", ex.getMessage());
@@ -100,6 +97,13 @@ public class ExceptionController {
         log.error("httpMessageNotReadableExceptionHandler: {}", ex.getMessage());
         ErrorResult errorResult = new ErrorResult(HttpStatus.INTERNAL_SERVER_ERROR, LocalDateTime.now(),"ResultForm.ResultCode.NO_BODY", "파라미터가 존재하지 않거나, 문법 오류 입니다.");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResult);
+    }
+
+    @ExceptionHandler(NumberFormatException.class)
+    public ResponseEntity<ErrorResult> NumberFormatExceptionHandler(NumberFormatException ex){
+        log.error("NumberFormatExceptionHandler: {}", ex.getMessage());
+        ErrorResult errorResult = new ErrorResult(HttpStatus.BAD_REQUEST, LocalDateTime.now(), "BAD_REQUEST", "양식을 맞추어 요청하시거나, 길이가 너무 깁니다.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
     }
 
 

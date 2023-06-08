@@ -73,16 +73,18 @@ public class Prac02Repository {
     }
 
     public List<Board> boardList(SearchParam search) {
-        // 노출되는
+        // pageNum에 따른 출력 범위
         int offset = search.getExposedCount() * (search.getPageNum() - 1);
 
 
         String sql = "SELECT * FROM boards WHERE del = 0 AND title LIKE CONCAT('%', ?, '%') OR content LIKE CONCAT('%', ?, '%') LIMIT ? OFFSET ?";
-//        return jdbcTemplate.query(sql, search, search, search.getExposedCount(), offset);    // 추후에 동적쿼리로 만들 필요 X
+//        return jdbcTemplate.query(sql, search, search, search.getExposedCount(), offset);    // 당장은 동적쿼리로 만들 필요 X
+        System.out.println(search.getExposedCount()* (search.getPageNum()-1));
+        System.out.println(search.getPageNum());
+        List<Board> result = jdbcTemplate.query(sql, new BoardRowMapper(), search.getSearch(), search.getSearch(), search.getExposedCount(), offset );
 
-        List<Board> result = jdbcTemplate.query(sql, new BoardRowMapper(), search.getSearch(), search.getSearch(), search.getExposedCount(), search.getExposedCount()* (search.getPageNum()-1) );
 
-        return result.isEmpty()? null:result;   // 조회되지 않는 경우 null return
+        return result.isEmpty() ? null:result;   // 해당 검색어로 조회되지 않는 경우 null return
     }
 
     // public class ~~
