@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.Map;
 
 @RestController         // Rest API ( responsebody 생략 가능 )
@@ -25,7 +26,7 @@ public class Prac02Controller {
     /* C = PostMapping , R = GetMapping, U = PutMapping, D = DeleteMapping */
 
     @PostMapping("/")        // Create
-    public String createBoard(@Valid @RequestBody Board board) {
+    public Map<String,String> createBoard(@Valid @RequestBody Board board) {
         log.debug("createBoard Board : {}.", board);
 
 
@@ -33,9 +34,9 @@ public class Prac02Controller {
         boolean isSuccess = service.createBoard(board);
 
         if(isSuccess){
-            return "게시물 등록 성공";
+            return Collections.singletonMap("message", "게시물 등록 성공");
         }
-        return "게시물 등록 실패";
+        return Collections.singletonMap("message", "게시물 등록 실패");
     }
 
     @GetMapping("/{bbsseq}")     // Read
@@ -48,29 +49,29 @@ public class Prac02Controller {
 
 
     @PutMapping("/{bbsseq}")        // Update
-    public String reWriteBoard(@Valid @RequestBody Board board, @PathVariable int bbsseq){
+    public Map<String, String> reWriteBoard(@Valid @RequestBody Board board, @PathVariable int bbsseq){
         log.debug("reWriteBoard Board : {}.", board);
 
         // 게시판 수정
         boolean isSuccess = service.reWriteBoard(board, bbsseq);
 
         if(isSuccess){
-            return "수정 성공";
+            return Collections.singletonMap("message", "게시물 수정 성공");
         }
-        return "Fail";
+        return Collections.singletonMap("message", "게시물 수정 실패");
     }
 
 
     // 존재하는지 먼저 파악한후 throw
     @DeleteMapping("/{bbsseq}")     // Delete
-    public String deleteBoard(@PathVariable int bbsseq){
+    public Map<String, String> deleteBoard(@PathVariable int bbsseq){
         log.debug("deleteBoard : {}.", bbsseq);
         // 게시판 삭제
         boolean isSuccess = service.deleteBoard(bbsseq);
         if(isSuccess){
-            return "OK";
+            return Collections.singletonMap("message", "게시물 삭제 성공");
         }
-        return "Fail";
+        return Collections.singletonMap("message", "게시물 삭제 실패");
     }
 
     @GetMapping("/bbslist")         // Read         // defaultValue를 설정하기위해 RequestBody 사용 보류 // Null 가능

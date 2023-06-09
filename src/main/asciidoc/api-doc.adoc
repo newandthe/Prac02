@@ -1,0 +1,38 @@
+= 테스트문서
+:toc: left
+
+== 게시물 생성 API
+.Http Request
+include::{snippets}/create-test/http-request.adoc[]
+
+.Http Response
+include::{snippets}/create-test/http-response.adoc[]
+
+
+== 게시물 삭제 API
+.Http Request
+include::{snippets}/delete-test/http-request.adoc[]
+
+.Http Response
+include::{snippets}/delete-test/http-response.adoc[]
+
+== 게시물 수정 API
+.Http Request
+include::{snippets}/put-test/http-request.adoc[]
+
+.Http Response
+include::{snippets}/put-test/http-response.adoc[]
+
+== 게시물 읽기 API
+.Http Request
+include::{snippets}/get-test/http-request.adoc[]
+
+.Http Response
+include::{snippets}/get-test/http-response.adoc[]
+
+== 게시물 검색 및 단위로 읽기 API
+.Http Request
+include::{snippets}/getlist-test/http-request.adoc[]
+
+.Http Response
+include::{snippets}/getlist-test/http-response.adoc[]
