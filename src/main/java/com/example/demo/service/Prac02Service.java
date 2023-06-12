@@ -93,7 +93,7 @@ public class Prac02Service {
 
 
         // totalCount가 0이 아닌경우이므로 결과가 존재한다는 의미.
-        if(  (search.getPageNum() > (int)Math.ceil( (double) totalCount/search.getExposedCount())) ){
+        if(  (search.getPageNum() > (int)Math.ceil( (double) totalCount/search.getExposedCount())) ){   // 요청받은 페이지가 요구조건으로 표현할수 있는 페이지보다 크다면..
             search.setPageNum(  (int)Math.ceil( (double) totalCount/search.getExposedCount())  ); // 마지막 페이지로 강제로 변경
         } else if (search.getPageNum()<1){ // 사용자가 설정한 페이지가 음수라면 1페이지로 강제 변경
             search.setPageNum(1);
