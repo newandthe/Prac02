@@ -14,6 +14,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -57,7 +58,14 @@ public class ExceptionController {
     // Validation 결여 에러
     public ResponseEntity<ErrorResult> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
         log.error("handleDataIntegrityViolationException: {}", ex.getMessage());
-        ErrorResult errorResult = new ErrorResult(HttpStatus.INTERNAL_SERVER_ERROR, LocalDateTime.now(),"BAD_REQUEST", ex.getMessage());
+        ErrorResult errorResult = new ErrorResult(ErrorCode.BAD_REQUEST.getStatus(), LocalDateTime.now(),"BAD_REQUEST", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)    // 메소드 타입 미스매치 예외
+    public ResponseEntity<ErrorResult> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        log.error("handleMethodArgumentTypeMismatch: {}", ex.getMessage());
+        ErrorResult errorResult = new ErrorResult(ErrorCode.BAD_REQUEST.getStatus(), LocalDateTime.now(), "BAD_REQUEST", "메소드 요청 방식을 다시 확인해주세요.");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
     }
 
