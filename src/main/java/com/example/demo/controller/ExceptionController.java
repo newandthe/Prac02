@@ -76,10 +76,10 @@ public class ExceptionController {
 
 
     @ExceptionHandler(RuntimeException.class)
-    // DB 작업 실패시 여기로 오게 됨.
+    // DB 작업 실패시, 혹은 입력 값 혹은 잘못된 요청일 경우 여기로 오게 됨.
     public ResponseEntity<ErrorResult> handleRuntimeException(RuntimeException ex) {
         log.error("handleRuntimeException: {}", ex.getMessage());
-        ErrorResult errorResult = new ErrorResult(HttpStatus.INTERNAL_SERVER_ERROR, LocalDateTime.now(),"INTERNAL_SERVER_ERROR", ex.getMessage());
+        ErrorResult errorResult = new ErrorResult(HttpStatus.INTERNAL_SERVER_ERROR, LocalDateTime.now(),"INTERNAL_SERVER_ERROR", "요청을 다시 한번 확인해주세요.");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResult);
     }
 

@@ -74,22 +74,14 @@ public class Prac02Controller {
         return Collections.singletonMap("message", "게시물 삭제 실패");
     }
 
-    @GetMapping("/bbslist")         // Read         // defaultValue를 설정하기위해 RequestBody 사용 보류 // Null 가능
-    public Map boardList(@RequestParam(value = "search", required = false, defaultValue = "") String search,
-                            @RequestParam(value = "pageNum", required = false, defaultValue = "1") String pageNum,
-                            @RequestParam(value = "exposedCount", required = false, defaultValue = "5") String exposedCount){
+    @GetMapping("/bbslist")         // Read    // Null 가능 // lombok DefaultValue
+    public Map boardList(@RequestBody SearchParam searchparam){
 //        log.debug("boardParam : {} {} {}.", search, pageNum, exposedCount);
 
         // 게시판 목록 조회    // default : search = "", pageNum = 1, exposedCount = 5개 씩..
         // String 으로 받아야 예외처리를 유연하게 가능 (int 로 받을시 문제될 경우 runtimeException 으로 빠져버림)
-        int page = Integer.parseInt(pageNum);
-        int exposed = Integer.parseInt(exposedCount);
 
-        SearchParam searchParam = new SearchParam();
-        searchParam.setSearch(search);
-        searchParam.setPageNum(page);
-        searchParam.setExposedCount(exposed);
-        log.debug("boardList : {}.", searchParam);
+        log.debug("boardList : {}.", searchparam);
 
 
 
@@ -102,7 +94,7 @@ public class Prac02Controller {
 
         // Map으로 search 들에 대해서 return (totalCount, pageNum, exposedCount, bbsList)
 
-        return service.boardList(searchParam);
+        return service.boardList(searchparam);
     }
 
 

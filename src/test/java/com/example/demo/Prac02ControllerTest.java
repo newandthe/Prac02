@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.request.RequestDocumentation;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -30,14 +31,11 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -46,21 +44,65 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 // 나머지 커스텀해서 전부 출력하기.
 @SpringBootTest
+@AutoConfigureRestDocs  // rest docs 자동 설정
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 public class Prac02ControllerTest {
 
     // JUnit5
 
     private MockMvc mockMvc;
+    private RestDocumentationResultHandler document;
+    private WebApplicationContext context;
+    private RestDocumentationContextProvider restDocumentation;
+
+
+//    @Before
+//    public void setUp() {
+//        // spring rest docs를 위한 양식 설정
+//        this.document = document(
+//                "{class-name}/{method-name}",   // snippet 생성시 이름을 자동으로 {class-name}/{method-name} 로 저장
+//                preprocessRequest(
+//        /*
+//        preprocessRequest : request snippet 생성시 설정
+//        modifyUris() : 기본 localhost:8080 으로 뜨는 host 이름을 내마음대로 바꿀수있다.
+//        prettyPrint() : request snippet생성시 prettyPrint 된다
+//         */
+//                        modifyUris()
+//                                .scheme("http")
+//                                .host("berrrr.demopage.com")
+//                                .removePort(),
+//                        prettyPrint()),
+//                preprocessResponse(prettyPrint())
+//        /*
+//        preprocessResponse : response snippet 생성시 설정
+//        prettyPrint() : response snippet 생성시 pretty Print 된다.
+//         */
+//        );
+//
+//        // mockMvc 실행시 spring rest docs 설정을 자동 적용
+//        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context)
+//                .apply(documentationConfiguration(this.restDocumentation)
+//                        .operationPreprocessors()
+//                        .withRequestDefaults(prettyPrint())
+//                        .withResponseDefaults(prettyPrint())
+//                )
+//                .alwaysDo(document)
+//                .build();
+//    }
+
     @BeforeEach
     public void setUp(WebApplicationContext webApplicationContext,
                       RestDocumentationContextProvider restDocumentation) {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .apply(documentationConfiguration(restDocumentation))
+                .apply(documentationConfiguration(restDocumentation)
+                        .operationPreprocessors()
+                        .withRequestDefaults(prettyPrint())
+                        .withResponseDefaults(prettyPrint())
+                )
                 .build();
     }
 
-    @Test   // CreateTest
+    @Test   // Create Test
     public void createBoardTest() throws Exception {
         String requestJson = "{\"title\": \"게시물 제목\", \"content\": \"게시물 내용\"}";
 
@@ -83,9 +125,25 @@ public class Prac02ControllerTest {
 
     @Test   // Read Test
     public void getBoardTest() throws Exception{
-        this.mockMvc.perform(get("/boards/13").accept(MediaType.APPLICATION_JSON))
+        String requestJson = "{\"bbsseq\": \"게시물 번호\"}";
+
+        this.mockMvc.perform(get("/boards/13")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson)
+                        .accept(MediaType.APPLICATION_JSON))
+
                 .andExpect(status().isOk())
-                .andDo(document("get-test"));
+                .andDo(document("get-test",
+                        requestFields(
+                                fieldWithPath("bbsseq").description("글 번호")
+                        ),
+                        responseFields(
+                                fieldWithPath("bbsseq").description("글 번호"),
+                                fieldWithPath("title").description("글 제목"),
+                                fieldWithPath("content").description("글 내용"),
+                                fieldWithPath("del").description("삭제여부")
+                        )
+                        ));
     }
 
     @Test   // Update Test
@@ -112,16 +170,49 @@ public class Prac02ControllerTest {
 
     @Test   // Delete Test
     void deleteBoardTest() throws Exception{
-        this.mockMvc.perform(delete("/boards/36").accept(MediaType.APPLICATION_JSON))
+        String requestJson = "{\"bbsseq\": \"게시물 번호\"}";
+
+        this.mockMvc.perform(delete("/boards/57")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("delete-test"));
+                .andDo(document("delete-test",
+                        requestFields(
+                                fieldWithPath("bbsseq").description("글 번호")
+                        ),
+                        responseFields(
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("메시지")
+                        )
+                        ));
     }
 
     @Test
     void boardListTest() throws Exception{
-        this.mockMvc.perform(get("/boards/bbslist").accept(MediaType.APPLICATION_JSON))
+        String requestJson = "{\"search\": \"abc\", \"pageNum\": \"2\", \"exposedCount\": \"1\"}";
+
+        this.mockMvc.perform(get("/boards/bbslist")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("getlist-test"));
+                .andDo(document("getlist-test",
+                        requestFields(
+                                fieldWithPath("search").description("검색 내용"),
+                                fieldWithPath("pageNum").description("페이지"),
+                                fieldWithPath("exposedCount").description("페이지당 노출 개수")
+                        ),
+                        responseFields(
+                                fieldWithPath("searchParam.search").description("검색 내용 (default = '')"),
+                                fieldWithPath("searchParam.pageNum").description("페이지 (default = 1)"),
+                                fieldWithPath("searchParam.exposedCount").description("페이지당 노출 개수 (default = 5)"),
+                                fieldWithPath("bbsList[].bbsseq").description("게시물 번호"),
+                                fieldWithPath("bbsList[].title").description("게시물 제목"),
+                                fieldWithPath("bbsList[].content").description("게시물 내용"),
+                                fieldWithPath("bbsList[].del").description("삭제 여부"),
+                                fieldWithPath("totalCount").description("검색된 게시물의 총 개수")
+                        )
+                ));
     }
 
 
