@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Board;
+import com.example.demo.model.ExecuteResult;
 import com.example.demo.model.SearchParam;
 import com.example.demo.service.Prac02Service;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController         // Rest API ( responsebody 생략 가능 )
@@ -25,15 +28,25 @@ public class Prac02Controller {
 
     /* C = PostMapping , R = GetMapping, U = PutMapping, D = DeleteMapping */
 
-    @PostMapping("/")        // Create
+    @PostMapping("/write")        // Create
     public Map<String,String> createBoard(@Valid @RequestBody Board board) {
         log.debug("createBoard Board : {}.", board);
+
 
 
         // 게시판 등록
         boolean isSuccess = service.createBoard(board);
 
         if(isSuccess){
+            HashMap<String, String> result = new HashMap<>();
+
+            result.put("message", "게시물 등록 성공");
+            String str = String.valueOf(LocalDateTime.now());
+            result.put("timestamp", str);
+
+
+
+
             return Collections.singletonMap("message", "게시물 등록 성공");
         }
         return Collections.singletonMap("message", "게시물 등록 실패");

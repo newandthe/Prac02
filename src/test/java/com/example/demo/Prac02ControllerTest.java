@@ -1,34 +1,19 @@
 package com.example.demo;
 
-import com.example.demo.controller.Prac02Controller;
-import com.example.demo.model.Board;
-import com.example.demo.model.SearchParam;
-import com.example.demo.service.Prac02Service;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.restdocs.request.RequestDocumentation;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -36,6 +21,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -103,18 +89,19 @@ public class Prac02ControllerTest {
     }
 
     @Test   // Create Test
+    @Transactional  // 테스트 완료 후 rollback
     public void createBoardTest() throws Exception {
         String requestJson = "{\"title\": \"게시물 제목\", \"content\": \"게시물 내용\"}";
 
-        this.mockMvc.perform(post("/boards/")
+        this.mockMvc.perform(post("/boards/write")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("create-test",
                         requestFields(
-                                fieldWithPath("title").description("글 제목"),
-                                fieldWithPath("content").description("글 내용")
+                                fieldWithPath("title").description("글 제목").attributes(key("constraints").value("not null")),
+                                fieldWithPath("content").description("글 내용").attributes(key("constraints").value("not null"))
                         ),
                         responseFields(
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("메시지")
@@ -147,6 +134,7 @@ public class Prac02ControllerTest {
     }
 
     @Test   // Update Test
+    @Transactional  // 테스트 완료 후 rollback
     public void reWriteBoardTest() throws Exception{
 
         String requestJson = "{\"title\": \"게시물 수정 제목\", \"content\": \"게시물 수정 내용\"}";
@@ -169,10 +157,11 @@ public class Prac02ControllerTest {
     }
 
     @Test   // Delete Test
+    @Transactional  // 테스트 완료 후 rollback
     void deleteBoardTest() throws Exception{
         String requestJson = "{\"bbsseq\": \"게시물 번호\"}";
 
-        this.mockMvc.perform(delete("/boards/57")
+        this.mockMvc.perform(delete("/boards/62")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson)
                         .accept(MediaType.APPLICATION_JSON))

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.exception.ErrorCode;
 import com.example.demo.exception.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
@@ -47,7 +48,9 @@ public class ExceptionController {
                 .collect(Collectors.toList());
 
         ErrorResult errorResult = new ErrorResult(HttpStatus.BAD_REQUEST, LocalDateTime.now(), "BAD_REQUEST", messages.toString());
+//        ErrorCode.BAD_REQUEST.getStatus();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
+
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

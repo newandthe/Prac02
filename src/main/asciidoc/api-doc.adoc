@@ -8,6 +8,9 @@
 
 
 == 게시물 생성 API
+IMPORTANT: title : NOT NULL +
+content : NOT NULL
+
 .Http Request
 include::{snippets}/create-test/http-request.adoc[]
 
@@ -17,11 +20,13 @@ include::{snippets}/create-test/request-fields.adoc[]
 .Http Response
 include::{snippets}/create-test/http-response.adoc[]
 
-.Http ResponseParameters
+.Http ResponseFields
 include::{snippets}/create-test/response-fields.adoc[]
 
 
 == 게시물 삭제 API
+IMPORTANT: bbsseq : NOT NULL
+
 .Http Request
 include::{snippets}/delete-test/http-request.adoc[]
 
@@ -31,12 +36,16 @@ include::{snippets}/delete-test/request-fields.adoc[]
 .Http Response
 include::{snippets}/delete-test/http-response.adoc[]
 
-.Http ResponseParameters
+.Http ResponseFields
 include::{snippets}/delete-test/response-fields.adoc[]
 
 
 
 == 게시물 수정 API
+IMPORTANT: (path) bbsseq : NOT NULL +
+title : NOT NULL +
+content : NOT NULL
+
 .Http Request
 include::{snippets}/put-test/http-request.adoc[]
 
@@ -46,10 +55,12 @@ include::{snippets}/put-test/request-fields.adoc[]
 .Http Response
 include::{snippets}/put-test/http-response.adoc[]
 
-.Http ResponseParameters
+.Http ResponseFields
 include::{snippets}/put-test/response-fields.adoc[]
 
 == 게시물 읽기 API
+IMPORTANT: (path) bbsseq : NOT NULL
+
 .Http Request
 include::{snippets}/get-test/http-request.adoc[]
 
@@ -59,7 +70,7 @@ include::{snippets}/get-test/request-fields.adoc[]
 .Http Response
 include::{snippets}/get-test/http-response.adoc[]
 
-.Http ResponseParameters
+.Http ResponseFields
 include::{snippets}/get-test/response-fields.adoc[]
 
 
@@ -79,38 +90,5 @@ include::{snippets}/getlist-test/request-fields.adoc[]
 .Http Response
 include::{snippets}/getlist-test/http-response.adoc[]
 
-.Http ResponseParameters
+.Http ResponseFields
 include::{snippets}/getlist-test/response-fields.adoc[]
-
-----
-GET /boards/bbslist?search=abc&pageNum=2&exposedCount=1 HTTP/1.1
-Accept: application/json
-Host: localhost:8080
-
-----
-
-.Http Response
-include::{snippets}/getlist-test/http-response.adoc[]
-
-----
-HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 356
-
-{
-    "searchParam": {
-        "search": "abc",
-        "pageNum": 2,
-        "exposedCount": 1
-    },
-    "bbsList": [
-        {
-            "bbsseq": 6,
-            "title": "abc",
-            "content": "123",
-            "del": 0
-        }
-    ],
-    "totalCount": 5
-}
-----
