@@ -30,7 +30,7 @@ public class Prac02Controller {
 
     /* C = PostMapping , R = GetMapping, U = PutMapping, D = DeleteMapping */
 
-    @PostMapping("/write") // Create
+    @PostMapping("") // Create
     public ResponseEntity<Map<String, String>> createBoard(@Valid @RequestBody Board board) {
         log.debug("createBoard Board: {}.", board);
 
@@ -71,6 +71,7 @@ public class Prac02Controller {
     @PutMapping("/{bbsseq}") // Update
     public ResponseEntity<Map<String, String>> reWriteBoard(@Valid @RequestBody Board board, @PathVariable int bbsseq) {
         log.debug("reWriteBoard Board: {}.", board);
+
 
         // 게시판 수정
         boolean isSuccess = service.reWriteBoard(board, bbsseq);
@@ -122,7 +123,7 @@ public class Prac02Controller {
     }
 
 
-    @GetMapping("/bbslist")         // Read    // Null 가능 // lombok DefaultValue
+    @GetMapping("")         // Read    // Null 가능 // lombok DefaultValue
     public Map boardList(@RequestBody SearchParam searchparam){
 //        log.debug("boardParam : {} {} {}.", search, pageNum, exposedCount);
 

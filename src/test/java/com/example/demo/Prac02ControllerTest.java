@@ -91,20 +91,23 @@ public class Prac02ControllerTest {
     @Test   // Create Test
     @Transactional  // 테스트 완료 후 rollback
     public void createBoardTest() throws Exception {
-        String requestJson = "{\"title\": \"게시물 제목\", \"content\": \"게시물 내용\"}";
+        String requestJson = "{\"title\": \"게시물 제목\", \"content\": \"게시물 내용\", \"author\":\"작성자\"}";
 
-        this.mockMvc.perform(post("/boards/write")
+        this.mockMvc.perform(post("/boards")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andDo(document("create-test",
                         requestFields(
-                                fieldWithPath("title").description("글 제목").attributes(key("constraints").value("not null")),
-                                fieldWithPath("content").description("글 내용").attributes(key("constraints").value("not null"))
+                                fieldWithPath("title").description("글 제목").optional(),
+                                fieldWithPath("content").description("글 내용").optional(),
+                                fieldWithPath("author").description("작성자").optional()
                         ),
                         responseFields(
-                                fieldWithPath("message").type(JsonFieldType.STRING).description("메시지")
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("메시지"),
+                                fieldWithPath("timestamp").description("수행 시간"),
+                                fieldWithPath("status").description("수행 결과 상태")
                         )
                 ));
     }
@@ -114,7 +117,7 @@ public class Prac02ControllerTest {
     public void getBoardTest() throws Exception{
         String requestJson = "{\"bbsseq\": \"게시물 번호\"}";
 
-        this.mockMvc.perform(get("/boards/13")
+        this.mockMvc.perform(get("/boards/118")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson)
                         .accept(MediaType.APPLICATION_JSON))
@@ -122,12 +125,13 @@ public class Prac02ControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document("get-test",
                         requestFields(
-                                fieldWithPath("bbsseq").description("글 번호")
+                                fieldWithPath("bbsseq").description("글 번호").optional()
                         ),
                         responseFields(
                                 fieldWithPath("bbsseq").description("글 번호"),
                                 fieldWithPath("title").description("글 제목"),
                                 fieldWithPath("content").description("글 내용"),
+                                fieldWithPath("author").description("작성자"),
                                 fieldWithPath("del").description("삭제여부")
                         )
                         ));
@@ -137,21 +141,24 @@ public class Prac02ControllerTest {
     @Transactional  // 테스트 완료 후 rollback
     public void reWriteBoardTest() throws Exception{
 
-        String requestJson = "{\"title\": \"게시물 수정 제목\", \"content\": \"게시물 수정 내용\"}";
+        String requestJson = "{\"title\": \"게시물 수정 제목\", \"content\": \"게시물 수정 내용\", \"author\":\"작성자\"}";
 
 
-        this.mockMvc.perform(put("/boards/17")
+        this.mockMvc.perform(put("/boards/118")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("put-test",
                         requestFields(
-                                fieldWithPath("title").description("글 제목"),
-                                fieldWithPath("content").description("글 내용")
+                                fieldWithPath("title").description("글 제목").optional(),
+                                fieldWithPath("content").description("글 내용").optional(),
+                                fieldWithPath("author").description("작성자").optional()
                         ),
                         responseFields(
-                                fieldWithPath("message").type(JsonFieldType.STRING).description("메시지")
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("메시지"),
+                                fieldWithPath("timestamp").description("수행 시간"),
+                                fieldWithPath("status").description("수행 결과 상태")
                         )
                 ));
     }
@@ -161,44 +168,47 @@ public class Prac02ControllerTest {
     void deleteBoardTest() throws Exception{
         String requestJson = "{\"bbsseq\": \"게시물 번호\"}";
 
-        this.mockMvc.perform(delete("/boards/62")
+        this.mockMvc.perform(delete("/boards/118")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("delete-test",
                         requestFields(
-                                fieldWithPath("bbsseq").description("글 번호")
+                                fieldWithPath("bbsseq").description("글 번호").optional()
                         ),
                         responseFields(
-                                fieldWithPath("message").type(JsonFieldType.STRING).description("메시지")
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("메시지"),
+                                fieldWithPath("timestamp").description("수행 시간"),
+                                fieldWithPath("status").description("수행 결과 상태")
                         )
                         ));
     }
 
     @Test
     void boardListTest() throws Exception{
-        String requestJson = "{\"search\": \"abc\", \"pageNum\": \"2\", \"exposedCount\": \"1\"}";
+        String requestJson = "{\"search\": \"abc\", \"pageNum\": \"1\", \"exposedCount\": \"1\"}";
 
-        this.mockMvc.perform(get("/boards/bbslist")
+        this.mockMvc.perform(get("/boards")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("getlist-test",
                         requestFields(
-                                fieldWithPath("search").description("검색 내용"),
-                                fieldWithPath("pageNum").description("페이지"),
-                                fieldWithPath("exposedCount").description("페이지당 노출 개수")
+                                fieldWithPath("search").description("검색 내용 (default = ' ')"),
+                                fieldWithPath("pageNum").description("페이지 (default = 1)"),
+                                fieldWithPath("exposedCount").description("페이지당 노출 개수 (default = 5)")
                         ),
                         responseFields(
-                                fieldWithPath("searchParam.search").description("검색 내용 (default = '')"),
-                                fieldWithPath("searchParam.pageNum").description("페이지 (default = 1)"),
-                                fieldWithPath("searchParam.exposedCount").description("페이지당 노출 개수 (default = 5)"),
+                                fieldWithPath("searchParam.search").description("검색 내용"),
+                                fieldWithPath("searchParam.pageNum").description("페이지"),
+                                fieldWithPath("searchParam.exposedCount").description("페이지당 노출 개수"),
                                 fieldWithPath("bbsList[].bbsseq").description("게시물 번호"),
                                 fieldWithPath("bbsList[].title").description("게시물 제목"),
                                 fieldWithPath("bbsList[].content").description("게시물 내용"),
                                 fieldWithPath("bbsList[].del").description("삭제 여부"),
+                                fieldWithPath("bbsList[].author").description("작성자"),
                                 fieldWithPath("totalCount").description("검색된 게시물의 총 개수")
                         )
                 ));

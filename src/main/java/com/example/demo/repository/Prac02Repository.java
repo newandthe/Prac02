@@ -26,8 +26,8 @@ public class Prac02Repository {
     public boolean createBoard(Board board) {
         try {
             // 게시판 등록을 위한 SQL 작성
-            String sql = "INSERT INTO boards (title, content) VALUES (?, ?)";
-            int n = jdbcTemplate.update(sql, board.getTitle(), board.getContent());
+            String sql = "INSERT INTO boards (title, content, author) VALUES (?, ?, ?)";
+            int n = jdbcTemplate.update(sql, board.getTitle(), board.getContent(), board.getAuthor());
 
             System.out.println("n " + n);
 
@@ -51,9 +51,13 @@ public class Prac02Repository {
     }
 
     public boolean reWriteBoard(Board board, int bbsseq) {
+        System.out.println(board.getTitle());
+        System.out.println(board.getContent());
+        System.out.println(board.getAuthor());
+        System.out.println(bbsseq);
         try {
-            String sql = "UPDATE boards SET title = ?, content = ? WHERE bbsseq = ?";
-            int n = jdbcTemplate.update(sql, board.getTitle(), board.getContent(), bbsseq);
+            String sql = "UPDATE boards SET title = ?, content = ?, author = ? WHERE bbsseq = ?";
+            int n = jdbcTemplate.update(sql, board.getTitle(), board.getContent(), board.getAuthor(), bbsseq);
             return n > 0;
         } catch (DataAccessException ex) {
             throw new RuntimeException("게시판 수정에 실패했습니다.", ex);
@@ -77,11 +81,11 @@ public class Prac02Repository {
         int offset = search.getExposedCount() * (search.getPageNum() - 1);
 
 
-        String sql = "SELECT * FROM boards WHERE del = 0 AND title LIKE CONCAT('%', ?, '%') OR content LIKE CONCAT('%', ?, '%') LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM boards WHERE del = 0 AND title LIKE CONCAT('%', ?, '%') OR content LIKE CONCAT('%', ?, '%') OR author LIKE CONCAT('%', ?, '%') LIMIT ? OFFSET ?";
 //        return jdbcTemplate.query(sql, search, search, search.getExposedCount(), offset);    // 당장은 동적쿼리로 만들 필요 X
         System.out.println(search.getExposedCount()* (search.getPageNum()-1));
         System.out.println(search.getPageNum());
-        List<Board> result = jdbcTemplate.query(sql, new BoardRowMapper(), search.getSearch(), search.getSearch(), search.getExposedCount(), offset );
+        List<Board> result = jdbcTemplate.query(sql, new BoardRowMapper(), search.getSearch(), search.getSearch(), search.getSearch(),search.getExposedCount(), offset );
 
 
         return result.isEmpty() ? null:result;   // 해당 검색어로 조회되지 않는 경우 null return
