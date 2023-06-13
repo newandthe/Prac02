@@ -51,6 +51,8 @@ public class Prac02Service {
             throw new DataIntegrityViolationException("제목(title)의 길이가 너무 깁니다.");
         } else if (board.getContent().length() > 2000) {
             throw new DataIntegrityViolationException("내용(content)의 길이가 너무 깁니다.");
+        } else if (board.getAuthor().length() > 10) {
+            throw new DataIntegrityViolationException("작성자(author)의 길이가 너무 깁니다.");
         }
         return repository.reWriteBoard(board, bbsseq);
     }

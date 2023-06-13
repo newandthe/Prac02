@@ -14,6 +14,7 @@ public class BoardRowMapper implements RowMapper<Board> {
         board.setBbsseq(rs.getInt("bbsseq"));
         board.setTitle(rs.getString("title"));
         board.setContent(rs.getString("content"));
+        board.setAuthor(rs.getString("author"));
         board.setDel(rs.getInt("del"));
         return board;
     }

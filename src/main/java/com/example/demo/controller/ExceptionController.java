@@ -26,14 +26,14 @@ public class ExceptionController {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResult> handleException(Exception ex) {
-        ErrorResult errorResult = new ErrorResult(HttpStatus.INTERNAL_SERVER_ERROR, LocalDateTime.now(),"INTERNAL_SERVER_ERROR", "서버 내부 오류 발생");
+        ErrorResult errorResult = new ErrorResult(HttpStatus.INTERNAL_SERVER_ERROR, LocalDateTime.now(),ErrorCode.INTERNAL_SERVER_ERROR.name(), ErrorCode.INTERNAL_SERVER_ERROR.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResult);
     }
 
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<ErrorResult> handleNullPointerException(NullPointerException ex) {
         log.error("handleNullPointerException: {}", ex.getMessage());
-        ErrorResult errorResult = new ErrorResult(HttpStatus.INTERNAL_SERVER_ERROR, LocalDateTime.now(),"BAD_REQUEST", ex.getMessage());
+        ErrorResult errorResult = new ErrorResult(HttpStatus.INTERNAL_SERVER_ERROR, LocalDateTime.now(),ErrorCode.BAD_REQUEST.name(), ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
     }
 
@@ -48,7 +48,7 @@ public class ExceptionController {
                 .map(FieldError::getDefaultMessage)
                 .collect(Collectors.toList());
 
-        ErrorResult errorResult = new ErrorResult(HttpStatus.BAD_REQUEST, LocalDateTime.now(), "BAD_REQUEST", messages.toString());
+        ErrorResult errorResult = new ErrorResult(HttpStatus.BAD_REQUEST, LocalDateTime.now(), ErrorCode.BAD_REQUEST.name(), messages.toString());
 //        ErrorCode.BAD_REQUEST.getStatus();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
 
@@ -58,14 +58,14 @@ public class ExceptionController {
     // Validation 결여 에러
     public ResponseEntity<ErrorResult> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
         log.error("handleDataIntegrityViolationException: {}", ex.getMessage());
-        ErrorResult errorResult = new ErrorResult(ErrorCode.BAD_REQUEST.getStatus(), LocalDateTime.now(),"BAD_REQUEST", ex.getMessage());
+        ErrorResult errorResult = new ErrorResult(HttpStatus.BAD_REQUEST, LocalDateTime.now(),ErrorCode.BAD_REQUEST.name(), ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)    // 메소드 타입 미스매치 예외
     public ResponseEntity<ErrorResult> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
         log.error("handleMethodArgumentTypeMismatch: {}", ex.getMessage());
-        ErrorResult errorResult = new ErrorResult(ErrorCode.BAD_REQUEST.getStatus(), LocalDateTime.now(), "BAD_REQUEST", "메소드 요청 방식을 다시 확인해주세요.");
+        ErrorResult errorResult = new ErrorResult(HttpStatus.BAD_REQUEST, LocalDateTime.now(), ErrorCode.BAD_REQUEST.name(), ErrorCode.BAD_REQUEST.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
     }
 
@@ -74,14 +74,14 @@ public class ExceptionController {
     @ExceptionHandler(EmptyResultDataAccessException.class)
     public ResponseEntity<ErrorResult> EmptyResultDataAccessException(EmptyResultDataAccessException ex) {
         log.error("EmptyResultDataAccessException: {}", ex.getMessage());
-        ErrorResult errorResult = new ErrorResult(HttpStatus.NOT_FOUND, LocalDateTime.now(), "NOT_FOUND", "해당 게시물을 찾을 수 없습니다.");
+        ErrorResult errorResult = new ErrorResult(HttpStatus.NOT_FOUND, LocalDateTime.now(), ErrorCode.POSTS_NOT_FOUND.name(), ErrorCode.POSTS_NOT_FOUND.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResult);
     }
 
     @ExceptionHandler(ConfigDataResourceNotFoundException.class)
     public ResponseEntity<ErrorResult> handleResourceNotFoundException(ConfigDataResourceNotFoundException ex) {
         log.error("handleResourceNotFoundException: {}", ex.getMessage());
-        ErrorResult errorResult = new ErrorResult(HttpStatus.NOT_FOUND, LocalDateTime.now(),"NOT_FOUND", "해당 게시물을 찾을 수 없습니다.");
+        ErrorResult errorResult = new ErrorResult(HttpStatus.NOT_FOUND, LocalDateTime.now(),ErrorCode.POSTS_NOT_FOUND.name(), ErrorCode.POSTS_NOT_FOUND.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResult);
     }
 
@@ -90,8 +90,8 @@ public class ExceptionController {
     // DB 작업 실패시, 혹은 입력 값 혹은 잘못된 요청일 경우 여기로 오게 됨.
     public ResponseEntity<ErrorResult> handleRuntimeException(RuntimeException ex) {
         log.error("handleRuntimeException: {}", ex.getMessage());
-        ErrorResult errorResult = new ErrorResult(HttpStatus.INTERNAL_SERVER_ERROR, LocalDateTime.now(),"INTERNAL_SERVER_ERROR", "요청을 다시 한번 확인해주세요.");
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResult);
+        ErrorResult errorResult = new ErrorResult(HttpStatus.BAD_REQUEST, LocalDateTime.now(),ErrorCode.BAD_REQUEST.name(), ErrorCode.BAD_REQUEST.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
@@ -99,21 +99,21 @@ public class ExceptionController {
     public ResponseEntity<ErrorResult> httpRequestMethodNotSupportedException(Exception ex) {
 //        System.out.println("405번 예외처리 시작.");
         log.error("handleHttpRequestMethodNotSupportedException: {}", ex.getMessage());
-        ErrorResult errorResult = new ErrorResult(HttpStatus.METHOD_NOT_ALLOWED, LocalDateTime.now(),"METHOD_NOT_ALLOWED", "허용되지 않은 메서드입니다. 올바른 HTTP 요청 메서드를 사용해주세요.");
+        ErrorResult errorResult = new ErrorResult(HttpStatus.METHOD_NOT_ALLOWED, LocalDateTime.now(),ErrorCode.METHOD_NOT_ALLOWED.name(), ErrorCode.METHOD_NOT_ALLOWED.getMessage());
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(errorResult);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResult> httpMessageNotReadableExceptionHandler(HttpMessageNotReadableException ex){
         log.error("httpMessageNotReadableExceptionHandler: {}", ex.getMessage());
-        ErrorResult errorResult = new ErrorResult(HttpStatus.INTERNAL_SERVER_ERROR, LocalDateTime.now(),"ResultForm.ResultCode.NO_BODY", "파라미터가 존재하지 않거나, 문법 오류 입니다.");
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResult);
+        ErrorResult errorResult = new ErrorResult(ErrorCode.BAD_REQUEST.getStatus(), LocalDateTime.now(),ErrorCode.BAD_REQUEST.name(), ErrorCode.BAD_REQUEST.getMessage());
+        return ResponseEntity.status(ErrorCode.BAD_REQUEST.getStatus()).body(errorResult);
     }
 
     @ExceptionHandler(NumberFormatException.class)
     public ResponseEntity<ErrorResult> NumberFormatExceptionHandler(NumberFormatException ex){
         log.error("NumberFormatExceptionHandler: {}", ex.getMessage());
-        ErrorResult errorResult = new ErrorResult(HttpStatus.BAD_REQUEST, LocalDateTime.now(), "BAD_REQUEST", "양식을 맞추어 요청하시거나, 길이가 너무 깁니다.");
+        ErrorResult errorResult = new ErrorResult(HttpStatus.BAD_REQUEST, LocalDateTime.now(), ErrorCode.BAD_REQUEST.name(), ErrorCode.BAD_REQUEST.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
     }
 
